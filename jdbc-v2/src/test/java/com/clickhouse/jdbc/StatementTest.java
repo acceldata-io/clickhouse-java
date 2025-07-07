@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
@@ -430,7 +431,7 @@ public class StatementTest extends JdbcIntegrationTest {
             assertEquals(numberArray.getArray(), new short[] {1, 2, 3} );
             Array stringArray = rs.getArray("str_array");
             assertEquals(((Object[]) stringArray.getArray()).length, 3);
-            assertEquals(Arrays.stream(((Object[]) stringArray.getArray())).toList(), Arrays.asList("val1", "val2", "val3"));
+            assertEquals(Arrays.stream((Object[]) stringArray.getArray()).collect(Collectors.toList()), Arrays.asList("val1", "val2", "val3"));
         }
     }
 

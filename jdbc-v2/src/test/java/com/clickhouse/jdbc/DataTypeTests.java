@@ -62,6 +62,19 @@ public class DataTypeTests extends JdbcIntegrationTest {
         }
     }
 
+    private static long nextLong(Random rng, long origin, long bound) {
+        if (origin >= bound) {
+            throw new IllegalArgumentException("bound must be greater than origin");
+        }
+        long diff = bound - origin;
+        long bits, val;
+        do {
+            bits = rng.nextLong() >>> 1; // positive long
+            val = bits % diff;
+        } while (bits - val + (diff - 1) < 0L);
+        return val + origin;
+    }
+
     @Test(groups = { "integration" })
     public void testIntegerTypes() throws SQLException {
         runQuery("CREATE TABLE test_integers (order Int8, "
@@ -95,7 +108,7 @@ public class DataTypeTests extends JdbcIntegrationTest {
         Short uint8 = Integer.valueOf(rand.nextInt(256)).shortValue();
         int uint16 = rand.nextInt(65536);
         long uint32 = rand.nextInt() & 0xFFFFFFFFL;
-        BigInteger uint64 = BigInteger.valueOf(rand.nextLong(Long.MAX_VALUE));
+        BigInteger uint64 = BigInteger.valueOf(rand.nextLong() & Long.MAX_VALUE);
         BigInteger uint128 = new BigInteger(128, rand);
         BigInteger uint256 = new BigInteger(256, rand);
 
@@ -239,11 +252,11 @@ public class DataTypeTests extends JdbcIntegrationTest {
         Random rand = new Random(seed);
         log.info("Random seed was: {}", seed);
 
-        BigDecimal dec = new BigDecimal(new BigInteger(7, rand) + "." + rand.nextInt(10,100));//P - S; 9 - 2
-        BigDecimal dec32 = new BigDecimal(new BigInteger(5, rand) + "." + rand.nextInt(1000, 10000));
-        BigDecimal dec64 = new BigDecimal(new BigInteger(18, rand) + "." + rand.nextInt(10000000, 100000000));
-        BigDecimal dec128 = new BigDecimal(new BigInteger(20, rand) + "." + rand.nextLong(100000000000000000L, 1000000000000000000L));
-        BigDecimal dec256 = new BigDecimal(new BigInteger(58, rand) + "." + rand.nextLong(100000000000000000L, 1000000000000000000L));
+        BigDecimal dec = new BigDecimal(new BigInteger(7, rand).toString() + "." + (10 + rand.nextInt(90)));//P - S; 9 - 2
+        BigDecimal dec32 = new BigDecimal(new BigInteger(5, rand) + "." + (1000 + rand.nextInt(9000)));
+        BigDecimal dec64 = new BigDecimal(new BigInteger(18, rand) + "." + (10000000 + rand.nextInt(90000000)));
+        BigDecimal dec128 = new BigDecimal(new BigInteger(20, rand) + "." + nextLong(rand, 100000000000000000L, 1000000000000000000L));
+        BigDecimal dec256 = new BigDecimal(new BigInteger(58, rand) + "." + nextLong(rand, 100000000000000000L, 1000000000000000000L));
 
         try (Connection conn = getConnection()) {
             try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO test_decimals VALUES ( 3, ?, ?, ?, ?, ?)")) {

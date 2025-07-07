@@ -80,7 +80,7 @@
     </distributionManagement>
 
     <properties>
-        <revision>0.9.0-SNAPSHOT</revision>
+        <revision>0.9.0.3.3.6.2-1</revision>
         <project.current.year>2025</project.current.year>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -147,8 +147,8 @@
         <jmh.version>1.37</jmh.version>
         <guava.version>33.4.6-jre</guava.version>
 
-        <minTargetJdk>17</minTargetJdk>
-        <minSourceJdk>17</minSourceJdk>
+        <minTargetJdk>11</minTargetJdk>
+        <minSourceJdk>11</minSourceJdk>
         <javadoc.source.version>1.8</javadoc.source.version>
         <skipTests>false</skipTests>
         <skipITs>${skipTests}</skipITs>
@@ -1159,9 +1159,6 @@
                             <toolchains>
                                 <jdk>
                                     <version>11</version>
-                                </jdk>
-                                <jdk>
-                                    <version>17</version>
                                 </jdk>
                             </toolchains>
                         </configuration>
