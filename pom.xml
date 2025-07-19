@@ -67,7 +67,18 @@
         <system>Github</system>
         <url>https://github.com/ClickHouse/clickhouse-java/actions</url>
     </ciManagement>
-    
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <url>https://repo1.acceldata.dev/repository/odp-staging-snapshot</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <url>https://repo1.acceldata.dev/repository/odp-staging-release</url>
+        </repository>
+    </distributionManagement>
+
     <properties>
         <revision>0.9.8.3.4.3.0-1</revision>
         <project.current.year>2026</project.current.year>
