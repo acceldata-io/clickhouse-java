@@ -71,7 +71,7 @@
     <distributionManagement>
         <snapshotRepository>
             <id>nexus-snapshots</id>
-            <url>https://repo1.acceldata.dev/repository/odp-staging-snapshot</url>
+            <url>https://repo1.acceldata.dev/repository/odp-snapshot</url>
         </snapshotRepository>
         <repository>
             <id>nexus-releases</id>
